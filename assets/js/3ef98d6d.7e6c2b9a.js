@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkrendering=self.webpackChunkrendering||[]).push([[1186],{9001:e=>{e.exports=JSON.parse('{"permalink":"/Rendering/blog/tags/facebook","page":1,"postsPerPage":10,"totalPages":1,"totalCount":1,"blogDescription":"Blog","blogTitle":"Blog"}')}}]);
