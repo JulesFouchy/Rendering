@@ -1,0 +1,1 @@
+Allez sur [ce site](https://github.com/JulesFouchy/IMACUBES/releases/latest), téléchargez `IMACUBES-Windows.zip`, dézippez-le, et lancez `IMACUBES.exe`.
