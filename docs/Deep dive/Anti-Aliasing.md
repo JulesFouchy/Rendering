@@ -1,8 +1,5 @@
 import YoutubeVideo from "/src/components/YoutubeVideo"
 
-<YoutubeVideo id="NDo5TKr6pyc"/>
-<YoutubeVideo id="T9OBDscbHwY"/>
-
 ## Qu'est-ce que l'aliasing ?
 
 Quand vous essayez de dessiner une ligne en diagonale, elle ne peut pas aller "tout droit", elle est obligée de suivre la grille de pixels, c'est "l'effet escalier" :
@@ -19,6 +16,9 @@ L'anti-aliasing consiste à "flouter" l'objet pour que, vu de loin, il apparaiss
 ![](./img/anti-aliased2.png)
 
 ## Les différentes techniques d'anti-aliasing
+
+<YoutubeVideo id="NDo5TKr6pyc"/>
+<YoutubeVideo id="T9OBDscbHwY"/>
 
 ### SSAA (Super-Sampling Anti-Aliasing)
 
