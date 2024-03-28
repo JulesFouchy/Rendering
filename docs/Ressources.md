@@ -1,5 +1,5 @@
 
-- [Acerola : super chaîne qui vulgarise des concepts / techniques de rendu, et décortique le rendu de certains jeux vidéos](https://youtu.be/dVWkPADNdJ4)
+- [Acerola : super chaîne Youtube qui vulgarise des concepts / techniques de rendu, et décortique le rendu de certains jeux vidéos](https://youtu.be/dVWkPADNdJ4)
 
 - [Vidéo : Les éléments de base du rendu 3D vulgarisés](https://youtu.be/C8YtdC8mxTU)
 
