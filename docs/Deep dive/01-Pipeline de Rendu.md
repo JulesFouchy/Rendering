@@ -1,3 +1,6 @@
+---
+slug: /Deep dive
+---
 import YoutubeVideo from "/src/components/YoutubeVideo"
 
 Voici une vue d'ensemble de tout ce qui se passe dans Unreal :

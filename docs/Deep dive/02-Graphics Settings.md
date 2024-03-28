@@ -1,7 +1,3 @@
----
-slug: /Deep dive
----
-
 import YoutubeVideo from "/src/components/YoutubeVideo"
 
 Je recommande ces deux vidéos : 
