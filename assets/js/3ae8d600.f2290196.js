@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkrendering=self.webpackChunkrendering||[]).push([[8566],{9554:e=>{e.exports=JSON.parse('{"label":"facebook","permalink":"/Rendering/blog/tags/facebook","allTagsPath":"/Rendering/blog/tags","count":1,"unlisted":false}')}}]);
