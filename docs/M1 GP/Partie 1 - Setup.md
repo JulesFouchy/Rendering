@@ -35,14 +35,12 @@ VSCode est l'IDE ("éditeur de texte") que je vous conseille d'utiliser pour éc
 - <VSCodeExtension id="emmanuelbeziat.vscode-great-icons"/>: Des icônes pour plein de types de fichier (.cpp, .hpp, CMakeLists.txt, etc.).
 - <VSCodeExtension id="josetr.cmake-language-support-vscode"/>: Autocomplétion pour CMake.
 
-
 ## Installer RenderDoc
 
 [Téléchargez-le depuis cette page.](https://renderdoc.org/)
 
 RenderDoc est un *débugueur pour GPU*. Il permet de voir tout ce qu'il s'est passé dans la carte graphique pendant le rendu d'une frame donnée. Il permet de voir l'état de vos meshs, les différentes étapes de la construction de l'image finale, et plein d'autres choses encore !
 Nous allons beaucoup nous en servir au fil des TPs, à la fois pour débuguer notre code, et aussi juste pour inspecter et mieux comprendre ce qu'il se passe dans la carte graphique.
-
 
 ## Télécharger la base de code
 
