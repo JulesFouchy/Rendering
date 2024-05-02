@@ -91,6 +91,14 @@ Il y a déjà plein de chose à dire ! Quand on crée un mesh, on lui passe un *
 Un *vertex buffer* c'est le tableau qui contient toutes les données décrivant notre mesh : position des sommets des triangles, mais également plein d'autres données optionnelles : couleur, normale, coordonnée de texture (UV), etc.<br/>
 En fait c'est nous qui décidons quoi mettre dans ce buffer, puis que faire de ces données quand on code le vertex shader (que nous verrons plus tard). Pour faire du rendu classique on utilise généralement position + normales + UV. Mais on peut aussi imaginer d'autres usages plus créatifs et rajouter toutes les données dont on pourrait avoir besoin pour un effet précis.
 
+:::info Remarque
+Un usage original : on peut stocker la distance au tronc sur chaque vertex des branches et feuilles des arbres. Cette distance est ensuite utilisée pour calculer à quel point la branche peut ployer sous l'effet du vent. (La partie attachée au tronc ne doit pas bouger, et plus on s'en éloigne plus on peut bouger librement).<br/>
+Stocker cette distance dans le vertex buffer évite de la recalculer à chaque frame : c'est beaucoup plus optimisé.
+
+[C'est utilisé dans God of War par exemple :](https://youtu.be/MKX45_riWQA?t=1085)
+![](img/distance_tronc.png)
+:::
+
 Décrire ce vertex buffer se passe en deux étapes : son **layout** et ses **data**.<br/>
 Le `layout` indique comment `data` est structuré : dans notre exemple on a juste des positions 2D qui s'enchaînent, mais ça pourrait aussi être des positions 3D, et on pourrait aussi avoir d'autres attributs dans le même tableau `data`, par exemple des coordonnées de texture, comme on verra [plus tard](TODO). Pour chaque *attribut* du layout, il faut préciser son *index* (`0` dans notre cas), une information qui nous servira plus tard pour récupérer l'attribut du côté du *shader*.
 
@@ -358,7 +366,7 @@ On pourrait se dire qu'il suffisait de créer un nouveau vertex buffer avec des 
 
 ### Exercice : Faire bouger le carré
 
-Vous pouvez utiliser `gl::time_in_seconds()` pour récupérer le temps, l'envoyer au shader, et vous en servir pour faire bouger le carré. Le plus simple est de le faire aller en ligne droite, mais vous pouvez aussi le faire aller et revenir, ou tourner en rond :
+Vous pouvez utiliser `gl::time_in_seconds()` pour récupérer le temps, l'envoyer au shader, et vous en servir pour faire bouger le carré. Le plus simple est de le faire aller en ligne droite, mais vous pouvez aussi (bonus) le faire aller et revenir, ou tourner en rond :
 
 | ![](img/step-08-00.gif)      | ![](img/step-08-01.gif) |   ![](img/step-08-02.gif) |
 | ----------- | ----------- | ----------- |
@@ -382,7 +390,15 @@ glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA
 ![](img/step-09.gif)
 
 :::info Remarque
-Si vous voyez un effet de clignotement, c'est normal, c'est dû a la swapchain : en fait il y a deux images qui s'alternent : l'une qui est affichée à l'écran, et l'autre sur laquelle on est en train de dessiner. (Si on dessinait sur l'image qui est actuellement affichée à l'écran, on verrait les pixels se dessiner petit à petit et ça ferait très moche). Pour résoudre ce clignotement, il faudrait faire le rendu de toute notre scène dans une [render target](TODO) à part, qu'on copierait à l'écran à la fin de chaque frame.
+Si vous voyez un effet de clignotement, c'est normal, c'est dû à la swapchain : en fait il y a deux images qui s'alternent : l'une qui est affichée à l'écran, et l'autre sur laquelle on est en train de dessiner. (Si on dessinait sur l'image qui est actuellement affichée à l'écran, on verrait les pixels se dessiner petit à petit et ça ferait très moche). Pour résoudre ce clignotement, il faudrait faire le rendu de toute notre scène dans une [render target](TODO) à part, qu'on copierait à l'écran à la fin de chaque frame. Nous verrons cette notion [plus tard](TODO).
+:::
+
+:::info Remarque
+Il reste une trace qui ne s'efface pas, c'est dû à des problèmes d'arrondi au moment du calcul de la transparence, car chaque canal de couleur est stocké sur un entier à 8 bits seulement (par défaut). En faisant notre rendu sur une [render target](TODO) utilisant 16 bits par canal, ça résoudrait le problème.
+:::
+
+:::info Remarque
+Cet effet dépend du framerate ! Si vous dessinez deux fois plus d'images par seconde, la trace va s'effacer deux fois plus vite. Pour éviter cela, il faudrait prendre en compte `gl::delta_time_in_seconds()`, qui donne le temps écoulé entre deux frames.
 :::
 
 ## Caméra et Matrices
@@ -585,6 +601,10 @@ On peut aller visualiser notre Depth Buffer dans RenderDoc :
 ![](img/renderdoc-12.png)
 
 Dans l'onglet `Outputs` il y a maintenant deux images : l'écran normal (`Backbuffer Color`), et le Depth Buffer (`Backbuffer Depth-stencil`). (NB : pour y voir quelque chose dans le depth buffer, il faut changer la `Range`, car comme le cube est très proche il apparaît très blanc dans le depth buffer).
+
+:::info Remarque
+On verra un usage créatif du depth buffer pour faire un [effet de rendu See-Through](TODO).
+:::
 
 ## Texture
 

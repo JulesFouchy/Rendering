@@ -33,6 +33,6 @@ Vous devriez avoir le temps de faire les TPs avec le temps qu'on a en classe, ne
 :::
 
 Le rendu de vos TPs se fera via GitHub / GitLab, en me mettant un lien [sur ce Google Sheet](https://docs.google.com/spreadsheets/d/1rY8HAro82iN7EyK2jbkAv8uNboY_8XRMfY4iy9bj7M4/edit?usp=sharing).<br/>
-Faites bien des commits à chaque étape des TPs ! J'irai les regarder pour voir les choses qui se font effacer au cours du temps (comme le premier triangle que vous allez dessiner par exemple).
+Faites bien des commits à chaque étape des TPs (en gros à chaque screenshot dans le TP) ! J'irai les regarder pour voir les choses qui se font effacer au cours du temps (comme le premier triangle que vous allez dessiner par exemple).
 
 N'hésitez pas à me faire des retours sur tout problème qu'il pourrait y avoir ! Ce qui m'importe c'est que ce cours soit intéressant et enrichissant pour vous, donc je peux le faire évoluer et le changer si il ne vous convient pas !

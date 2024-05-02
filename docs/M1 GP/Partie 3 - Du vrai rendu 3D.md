@@ -5,3 +5,7 @@
 ## Post-processing et Render Target (Framebuffer)
 
 ## Ombres
+
+## Effet see-through
+
+-> depth buffer

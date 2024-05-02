@@ -16,7 +16,10 @@ Un compilateur va transformer votre code en un programme exécutable. Vous ne l'
 
 ## Installer CMake
 
-[Téléchargez `Windows x64 Installer` depuis cette page.](https://cmake.org/download/)
+[Téléchargez `Windows x64 Installer` depuis cette page.](https://cmake.org/download/)<br/>
+**IMPORTANT** : pendant l'installation, cochez bien `Add CMake to the system PATH for the current user` (ou `Add CMake to the system PATH for all users`).
+
+![Add CMake to the system PATH for the current user](img/cmake.png)
 
 CMake est l'outil de build le plus répandu pour C++. Il explique au compilateur comment compiler votre projet. Vous ne l'utiliserez pas directement, mais il est nécessaire pour que tout build correctement.
 
@@ -49,3 +52,10 @@ Vous êtes maintenant prêt.e à coder ! Nous allons partir de [ce template de c
 ![](img/use-this-template.png)
 
 (Et sinon vous pouvez aussi juste télécharger le code normalement, et créer un repo de votre côté).
+
+## Compiler
+
+Pour lancer votre projet, il vous suffit maintenant d'appuyer sur le petit insecte depuis VSCode.<br/>
+La première fois, il va vous demander quel compilateur vous voulez utiliser : il faudra probablement faire `[Scan for kits]`, puis sélectionnez le compilateur qui mentionne `amd64`.
+
+![](img/compiler.png)
