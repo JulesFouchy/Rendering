@@ -299,6 +299,26 @@ Ensuite, dans la fonction `main()` on assigne la variable `gl_Position`, qui est
 
 En guise de premier exercice, vous pouvez déplacer le rectangle via le vertex shader, par exemple de `0.4` en x et en y :
 
+:::tip
+Vous ne pouvez pas modifier la variable `in_position` car elle vient du vertex buffer, et modifier le vertex buffer n'est pas autorisé dans le vertex shader. À la place, créez une copie :
+```glsl
+#version 410
+
+layout(location = 0) in vec2 in_position;
+
+void main()
+{
+    // highlight-next-line
+    vec2 position = in_position;
+    // ...
+    // Modifiez `position` comme vous voulez
+    // ...
+    // highlight-next-line
+    gl_Position = vec4(position, 0., 1.); // Ici on utilise maintenant `position` et non plus `in_position`
+}
+```
+:::
+
 ![](img/step-05.png)
 
 ### Fragment Shader
