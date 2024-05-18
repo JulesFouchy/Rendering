@@ -628,8 +628,16 @@ On verra un usage créatif du depth buffer pour faire un [effet de rendu See-Thr
 
 ## Texture
 
-Nous allons maintenant appliquer une texture à notre objet ! Pour cela il faut d'abord créer l'objet texture :
+### UV
 
+Nous allons maintenant appliquer une texture à notre objet ! Pour cela, il nous faut tout d'abord des coordonnées de texture, qui vont indiquer quelle partie de la texture s'applique à quelle partie du mesh. Pour l'instant revenez à un mesh de carré, et rajoutez un vertex attribute de type `UV`. Les coordonnées de texture sont souvent appelées UV (U pour l'axe X, et V pour l'axe Y), et vont de 0 à 1.<br/>
+Pour vérifier que vos UVs sont bien placés, vous pouvez les afficher comme une couleur dans le fragment shader: `out_color = vec4(uv.x, uv.y, 0., 1.);`. C'est une technique très souvent utilisée pour débuguer sur GPU, comme on n'a pas de `print()` pour afficher des valeurs, on affiche des couleurs et on les interprète comme des nombres. Le rouge correspond à uv.x (0 à gauche et 1 à droite), et le vert à uv.y (0 en bas et 1 en haut). Ça doit ressembler à ça :
+
+![](./img/step-14.png)
+
+### Objet Texture
+
+Une fois qu'on a nos UVs, on peut maintenant créer notre objet texture :
 ```cpp
 auto const texture = gl::Texture{
     gl::TextureSource::File{ // Peut être un fichier, ou directement un tableau de pixels
@@ -645,22 +653,45 @@ auto const texture = gl::Texture{
     }
 };
 ```
+*[Si vous voulez, vous pouvez télécharger cette texture de test.](./img/texture.png)*
 
-Nous testerons les différentes `TextureOptions` un peu plus tard. Mais déjà, pour afficher notre texture sur un objet, il nous faut des coordonnées de texture qui vont indiquer quelle partie de la texture s'applique à quelle partie du mesh. Pour l'instant revenez à un mesh de carré, et rajoutez un vertex attribute de type `UV`. Les coordonnées de textures sont souvent appelées UV, et vont de 0 à 1.<br/>
-Pour vérifier que vos UVs sont bien placés, vous pouvez les afficher comme une couleur: `out_color = vec4(uv, 0., 1.);`. C'est une technique très souvent utilisée pour débuguer sur GPU, comme on n'a pas de `print()` pour afficher des valeurs, on affiche des couleurs et on les interprète comme des nombres. Le rouge correspond à uv.x (0 à gauche et 1 à droite), et le vert à uv.y (0 en bas et 1 en haut). Ça doit ressembler à ça :
-![](./img/step-14.png)
+Nous testerons les différentes `TextureOptions` juste après, mais déjà pour afficher la texture il ne vous reste plus qu'à :
+- Déclarer une variable uniforme de type `sampler2D` dans le fragment shader. (Un sampler est l'objet qui nous permet d'accéder à la texture en appliquant les TextureOptions qu'on a choisies) : `uniform sampler2D my_texture;`
+- Passer la texture au shader via une variable uniforme : `shader.set_uniform("my_texture", texture);`
+- De nouveau dans le fragment shader, lire la texture à la position `uv` grâce à la fonction `texture()` de glsl : `vec4 texture_color = texture(my_texture, uv);` et la retourner en sortie du fragment shader.
 
-Une fois qu'on a nos UVs, ont peut les utiliser pour sampler la texture dans le shader :
-- Déclarez une variable uniforme de type `sampler2D` dans le shader (un sampler est l'objet qui nous permet d'accéder à la texture en appliquant les TextureOptions qu'on a choisies) : ``
+*Et voilà !*
+![](./img/step-15.png)
+
+### Options de texture
+
+#### Wrap
+
+Le mode de wrapping contrôle ce qu'il se passe quand on passe des UVs à la fonction `texture()` qui ne sont pas entre 0 et 1. Plutôt que de crash comme le ferait un tableau normal quand on utilise un index invalide (< 0 ou >= size), la texture va quand même retourner une couleur. Pour tester ces différents modes, utilisez des UVs qui vont de -1 à 2, et testez tous les modes ! Vous verrez que les noms sont plutôt explicites. (PS : pour le mode `ClampToBorder` il faut spécifier le paramètre `border_color` en plus dans `TextureOptions`).
+
+*gl::Wrap::MirroredRepeat*
+![](./img/step-16.png)
+
+#### Filter
+
+Le filtre de magnification contrôle ce qu'il se passe quand on zoome dans l'image. Pour en visualiser l'effet, utilisez des UVs qui vont de 0.8 à 0.9 par exemple.
+
+:::info Note
+Pour le filtre `LinearMipmapLinear` il faut avoir créé des mipmaps pour votre texture, nous en parlerons plus tard.
+:::
+
+*gl::Filter::NearestNeighbour*
+![](./img/step-17.png)
+
+Le filtre de magnification est utilisée quand la texture est vue de loin et couvre "peu" de pixels à l'écran (moins de pixels que de pixels dans la texture).
+
+L'effet du filtre est beaucoup moins visible, et c'est surtout quand il y a du mouvement que le filtre Linear peut éviter un peu de flicker. Vous pouvez le voir [en utilisant une texture d'échiquier](./img/checkerboard.jpg), des UVs entre 0 et 30, et en faisant déplacer la texture à une vitesse de 0.0001 par seconde.
 
 Parler du fait que les UVs sont interpolés entre les vertexs
-
-Faire testes les différents wrap mode, en mettant une texture sur un quad fullscreen, avec des  uv qui vont de -1 à 2
-
-On peut avoir plusieurs color attachments
 
 ### Bonus : textures procédurales en fonction des uvs, cf. Shadertoy
 
 ## Render Target
 
 Revenir sur le fade et l'améliorer : plus de problème de swap chain, et on peut faire des textures en 16 bit
+On peut avoir plusieurs color attachments
