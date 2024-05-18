@@ -628,4 +628,39 @@ On verra un usage créatif du depth buffer pour faire un [effet de rendu See-Thr
 
 ## Texture
 
+Nous allons maintenant appliquer une texture à notre objet ! Pour cela il faut d'abord créer l'objet texture :
+
+```cpp
+auto const texture = gl::Texture{
+    gl::TextureSource::File{ // Peut être un fichier, ou directement un tableau de pixels
+        .path           = "res/texture.png",
+        .flip_y         = true, // Il n'y a pas de convention universelle sur la direction de l'axe Y. Les fichiers (.png, .jpeg) utilisent souvent une direction différente de celle attendue par OpenGL. Ce booléen flip_y est là pour inverser la texture si jamais elle n'apparaît pas dans le bon sens.
+        .texture_format = gl::InternalFormat::RGBA8, // Format dans lequel la texture sera stockée. On pourrait par exemple utiliser RGBA16 si on voulait 16 bits par canal de couleur au lieu de 8. (Mais ça ne sert à rien dans notre cas car notre fichier ne contient que 8 bits par canal, donc on ne gagnerait pas de précision). On pourrait aussi stocker en RGB8 si on ne voulait pas de canal alpha. On utilise aussi parfois des textures avec un seul canal (R8) pour des usages spécifiques.
+    },
+    gl::TextureOptions{
+        .minification_filter  = gl::Filter::Linear, // Comment on va moyenner les pixels quand on voit l'image de loin ?
+        .magnification_filter = gl::Filter::Linear, // Comment on va interpoler entre les pixels quand on zoom dans l'image ?
+        .wrap_x               = gl::Wrap::Repeat,   // Quelle couleur va-t-on lire si jamais on essaye de lire en dehors de la texture ?
+        .wrap_y               = gl::Wrap::Repeat,   // Idem, mais sur l'axe Y. En général on met le même wrap mode sur les deux axes.
+    }
+};
+```
+
+Nous testerons les différentes `TextureOptions` un peu plus tard. Mais déjà, pour afficher notre texture sur un objet, il nous faut des coordonnées de texture qui vont indiquer quelle partie de la texture s'applique à quelle partie du mesh. Pour l'instant revenez à un mesh de carré, et rajoutez un vertex attribute de type `UV`. Les coordonnées de textures sont souvent appelées UV, et vont de 0 à 1.<br/>
+Pour vérifier que vos UVs sont bien placés, vous pouvez les afficher comme une couleur: `out_color = vec4(uv, 0., 1.);`. C'est une technique très souvent utilisée pour débuguer sur GPU, comme on n'a pas de `print()` pour afficher des valeurs, on affiche des couleurs et on les interprète comme des nombres. Le rouge correspond à uv.x (0 à gauche et 1 à droite), et le vert à uv.y (0 en bas et 1 en haut). Ça doit ressembler à ça :
+![](./img/step-14.png)
+
+Une fois qu'on a nos UVs, ont peut les utiliser pour sampler la texture dans le shader :
+- Déclarez une variable uniforme de type `sampler2D` dans le shader (un sampler est l'objet qui nous permet d'accéder à la texture en appliquant les TextureOptions qu'on a choisies) : ``
+
+Parler du fait que les UVs sont interpolés entre les vertexs
+
+Faire testes les différents wrap mode, en mettant une texture sur un quad fullscreen, avec des  uv qui vont de -1 à 2
+
+On peut avoir plusieurs color attachments
+
 ### Bonus : textures procédurales en fonction des uvs, cf. Shadertoy
+
+## Render Target
+
+Revenir sur le fade et l'améliorer : plus de problème de swap chain, et on peut faire des textures en 16 bit
