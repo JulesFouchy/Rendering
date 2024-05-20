@@ -593,6 +593,11 @@ out_color = vec4(vertex_position, 1.);
 
 Si votre cube vous paraît un peu bizarre, c'est normal, il nous manque encore un Depth Buffer pour faire de la 3D correctement !
 
+:::tip Note
+Vous avez peut-être remarqué qu'il y a un dégradé de couleurs. C'est parce que, quand on passe une variable `in` / `out` entre le vertex shader et le fragment shader, elle est interpolée pour chaque pixel (en faisant une moyenne de la valeur aux trois sommets du triangle contenant le pixel).
+TODO image
+:::
+
 ## Depth Buffer
 
 Le problème avec notre rendu pour l'instant, c'est que les triangles se dessinent les uns après les autres et se recouvrent. Et si par malchance c'est une face arrière du cube qui est dessinée en dernière, alors elle va venir cacher les faces avant qui ont été dessinées avant.
@@ -683,15 +688,115 @@ Pour le filtre `LinearMipmapLinear` il faut avoir créé des mipmaps pour votre 
 *gl::Filter::NearestNeighbour*
 ![](./img/step-17.png)
 
-Le filtre de magnification est utilisée quand la texture est vue de loin et couvre "peu" de pixels à l'écran (moins de pixels que de pixels dans la texture).
+Le filtre de magnification est utilisée quand la texture est vue de loin et couvre "peu" de pixels à l'écran (moins que le nombre de pixels dans la texture).
 
 L'effet du filtre est beaucoup moins visible, et c'est surtout quand il y a du mouvement que le filtre Linear peut éviter un peu de flicker. Vous pouvez le voir [en utilisant une texture d'échiquier](./img/checkerboard.jpg), des UVs entre 0 et 30, et en faisant déplacer la texture à une vitesse de 0.0001 par seconde.
 
-Parler du fait que les UVs sont interpolés entre les vertexs
+### Bonus : textures procédurales
 
-### Bonus : textures procédurales en fonction des uvs, cf. Shadertoy
+Il est aussi possible, au lieu de lire une texture, de colorier un triangle en calculant une "texture" procédurale en fonction des UVs. On en a déjà vu un exemple très simple quand on affiché nos UVs (`out_color = vec4(uv.x, uv.y, 0., 1.);`), mais on peut faire beaucoup plus ! Par exemple toutes les images sur [Shadertoy](TODO) sont faites ainsi, juste en affichant un quad sur tout l'écran, et en faisant des calculs élaborés dans le fragment shader.
+
+Pour commencer simplement, vous pouvez vous demander comment produire un disque, ou un pattern d'échiquier :
+
+| ![](img/step-18-1.png)      | ![](img/step-18-2.png)  |  
+| ----------- | ----------- |
+
+Pour aller plus loin, je vous recommande les excellentes vidéos de [The Art of Code](TODO) (et Inigo ?) TODO mettre une image d'une fin de tuto stylée
+
+### Cube texturé
+
+Vous pouvez maintenant reprendre votre mesh de cube, et lui rajouter des UVs pour pouvoir appliquer une texture. Vous remarquerez qu'on ne peut pas avoir la texture qui s'affiche bien sur les 6 faces à la fois. Du moins tant qu'on n'utilise que 8 vertexs. En effet, utiliser un index buffer c'est bien pratique, mais parfois on a besoin de dupliquer nos sommets afin d'avoir un attribut différent pour chaque face même si elles partagent un même sommet. Par exemple ici nos sommets partagent la même position, mais pas les mêmes UVs en fonction de la face qu'on considère. Ne vous embêtez pas à le faire, mais sachez que pour résoudre ce problème dans le cas de notre cube il faudrait se passer d'un index buffer, et re-préciser les sommet une fois pour chaque triangle, comme on le faisait au début. (Donc 36 sommets dans le cas de notre cube !)
+
+![](./img/step-19.png)
 
 ## Render Target
 
+Pour finir ce long chapitre sur les différents objets fondamentaux des moteurs de rendu 3D, nous allons parler des Render Targets ! (Aussi appelées **Framebuffers**).
+
+Une Render Target sert à faire notre rendu sur une texture à part, au lieu de le faire directement à l'écran. Ça peut être très utile quand on a besoin de réutiliser l'image produite, par exemple pour appliquer du post-processing dessus.
+
+Commencez par créer une Render Target : vous reconnaîtrez certains paramètres qu'on a déjà utilisés en [créant une texture](#objet-texture) :
+
+```cpp
+auto render_target = gl::RenderTarget{gl::RenderTarget_Descriptor{
+    .width          = gl::framebuffer_width_in_pixels(),
+    .height         = gl::framebuffer_height_in_pixels(),
+    .color_textures = {
+        gl::ColorAttachment_Descriptor{
+            .format  = gl::InternalFormat_Color::RGBA8,
+            .options = {
+                .minification_filter  = gl::Filter::NearestNeighbour, // On va toujours afficher la texture à la taille de l'écran,
+                .magnification_filter = gl::Filter::NearestNeighbour, // donc les filtres n'auront pas d'effet. Tant qu'à faire on choisit le moins coûteux.
+                .wrap_x               = gl::Wrap::ClampToEdge,
+                .wrap_y               = gl::Wrap::ClampToEdge,
+            },
+        },
+    },
+    .depth_stencil_texture = gl::DepthStencilAttachment_Descriptor{
+        .format  = gl::InternalFormat_DepthStencil::Depth32F,
+        .options = {
+            .minification_filter  = gl::Filter::NearestNeighbour,
+            .magnification_filter = gl::Filter::NearestNeighbour,
+            .wrap_x               = gl::Wrap::ClampToEdge,
+            .wrap_y               = gl::Wrap::ClampToEdge,
+        },
+    },
+}};
+```
+
+En général une Render Target a plusieurs textures (qu'on appelle des *attachments*) : au moins une texture de couleur, et (optionnellement) une texture de profondeur (le fameux [Depth Buffer](#depth-buffer)) (qui peut aussi contenir un [Stencil Buffer](TODO) dont nous reparlerons plus tard).
+
+Puisque dans notre cas on va utiliser la render target pour faire du post-processing, on veut que la texture aie la même taille que l'écran. C'est pourquoi on l'initialise avec 
+```cpp
+.width  = gl::framebuffer_width_in_pixels(),
+.height = gl::framebuffer_height_in_pixels(),
+```
+
+mais il faut également la changer si la fenêtre est redimensionnée ! Rajoutez cet event callback :
+
+```cpp
+gl::set_events_callbacks({
+    camera.events_callbacks(),
+    {.on_framebuffer_resized = [&](gl::FramebufferResizedEvent const& e) {
+        render_target.resize(e.width_in_pixels, e.height_in_pixels);
+    }},
+});
+```
+
+Maintenant que notre render target est créée, on peut dessiner dessus. Pour cela, il suffit d'appeler sa méthode `render()` et de lui passer un callback contenant du code de dessin normal. Ces draw calls dessineront non pas à l'écran, mais sur notre render target !
+
+```cpp
+ render_target.render([&]() {
+    glClearColor(1.f, 0.f, 0.f, 1.f); // Dessine du rouge, non pas à l'écran, mais sur notre render target
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    // ... mettez tout votre code de rendu ici
+});
+```
+
+En faisant ça on ne voit plus rien à l'écran, et c'est normal car tout est maintenant mis sur notre render target à la place. Nous allons l'afficher dans un instant, mais en attendant on peut déjà aller la voir dans RenderDoc et confirmer que le rendu s'est bien fait :
+![](./img/renderdoc-13.png)
+
+Notre cube est toujours là, mais au lieu d'être rendu à l'écran (qui s'appelait `Backbuffer Color` dans notre capture RenderDoc), la texture d'output est maintenant `Texture 54`.
+
+Maintenant pour afficher notre texture, il nous suffit de dessiner un quad sur tout l'écran, de passer la texture à un shader, et de la lire [comme au chapitre sur les textures](#objet-texture) :
+
+![](./img/step-20.png)
+
+Et voilà ! On est revenu au point de départ avec notre cube, mais l'avantage c'est qu'on peut maintenant manipuler la texture comme on veut dans un shader et appliquer plein d'effets !
+
+### Post-Process
+
+Dans le fragment shader qui lit la texture de la render target, on peut maintenant manipuler la couleur comme on veut ! Essayez de tout passer en noir et blanc, ou de ne garder que la composante rouge de l'image :
+
+| ![](img/step-21-1.png)      | ![](img/step-21-2.png)  |  
+| ----------- | ----------- |
+
+**Bonus :** Vous pouvez aussi tenter plein d'autres effets, comme augmenter le contraste ou la saturation de l'image, faire du vignettage, déformer l'image, etc.
+
+### Fade
+
 Revenir sur le fade et l'améliorer : plus de problème de swap chain, et on peut faire des textures en 16 bit
+
 On peut avoir plusieurs color attachments
+
+remontrer le schéma unreal et pointer toutes les différentes render targets intermédiaires
