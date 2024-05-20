@@ -410,11 +410,11 @@ glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA
 ![](img/step-09.gif)
 
 :::info Remarque
-Si vous voyez un effet de clignotement, c'est normal, c'est dû à la swapchain : en fait il y a deux images qui s'alternent : l'une qui est affichée à l'écran, et l'autre sur laquelle on est en train de dessiner. (Si on dessinait sur l'image qui est actuellement affichée à l'écran, on verrait les pixels se dessiner petit à petit et ça ferait très moche). Pour résoudre ce clignotement, il faudrait faire le rendu de toute notre scène dans une [render target](TODO) à part, qu'on copierait à l'écran à la fin de chaque frame. Nous verrons cette notion [plus tard](TODO).
+Si vous voyez un effet de clignotement, c'est normal, c'est dû à la swapchain : en fait il y a deux images qui s'alternent : l'une qui est affichée à l'écran, et l'autre sur laquelle on est en train de dessiner. (Si on dessinait sur l'image qui est actuellement affichée à l'écran, on verrait les pixels se dessiner petit à petit et ça ferait très moche). Pour résoudre ce clignotement, il faudrait faire le rendu de toute notre scène dans une [render target](#render-target) à part, qu'on copierait à l'écran à la fin de chaque frame. Nous verrons cette notion plus tard.
 :::
 
 :::info Remarque
-Il reste une trace qui ne s'efface pas, c'est dû à des problèmes d'arrondi au moment du calcul de la transparence, car chaque canal de couleur est stocké sur un entier à 8 bits seulement (par défaut). En faisant notre rendu sur une [render target](TODO) utilisant 16 bits par canal, ça résoudrait le problème.
+Il reste une trace qui ne s'efface pas, c'est dû à des problèmes d'arrondi au moment du calcul de la transparence, car chaque canal de couleur est stocké sur un entier à 8 bits seulement (par défaut). En faisant notre rendu sur une [render target](#render-target) utilisant 16 ou 32 bits par canal, ça résoudrait le problème.
 :::
 
 :::info Remarque
@@ -744,7 +744,9 @@ auto render_target = gl::RenderTarget{gl::RenderTarget_Descriptor{
 }};
 ```
 
-En général une Render Target a plusieurs textures (qu'on appelle des *attachments*) : au moins une texture de couleur, et (optionnellement) une texture de profondeur (le fameux [Depth Buffer](#depth-buffer)) (qui peut aussi contenir un [Stencil Buffer](TODO) dont nous reparlerons plus tard).
+En général une Render Target a plusieurs textures (qu'on appelle des *attachments*) : au moins une texture de couleur[^1], et (optionnellement) une texture de profondeur (le fameux [Depth Buffer](#depth-buffer)) (qui peut aussi contenir un [Stencil Buffer](TODO) dont nous reparlerons plus tard).
+
+[^1]: Il peut y en avoir plusieurs. Ça permet de dessiner sur plusieurs textures en même temps avec un seul draw call. Pour cela il suffit dans le fragment shader de déclarer plusieurs variables `out`: `out vec4 out_color1; out vec4 out_color2;` et d'écrire dans chacune d'elles.
 
 Puisque dans notre cas on va utiliser la render target pour faire du post-processing, on veut que la texture aie la même taille que l'écran. C'est pourquoi on l'initialise avec 
 ```cpp
@@ -793,10 +795,16 @@ Dans le fragment shader qui lit la texture de la render target, on peut maintena
 
 **Bonus :** Vous pouvez aussi tenter plein d'autres effets, comme augmenter le contraste ou la saturation de l'image, faire du vignettage, déformer l'image, etc.
 
-### Fade
+### Bonus : Fade
 
-Revenir sur le fade et l'améliorer : plus de problème de swap chain, et on peut faire des textures en 16 bit
+Utiliser une render target peut aussi permettre de choisir le format (e.g. `RGBA8`) de la texture sur laquelle on rend, au lieu d'être limité à la valeur choisie par défaut par OpenGL. Reprenez votre code du [fade](#bonus--effet-de-fade), et faites maintenant le rendu sur une render target utilisant un format avec 16 ou 32 bits par canal au lieu de 8, ça va régler les problèmes de précision qu'on avait. Et le fait d'utiliser une render target règle aussi le problème de swapchain qui faisait clignoter l'image.
 
-On peut avoir plusieurs color attachments
+![](img/step-22.gif)
 
-remontrer le schéma unreal et pointer toutes les différentes render targets intermédiaires
+### Autres utilisations
+
+:::tip Note
+Sur ce schéma du pipeline de rendu d'Unreal, la plupart des étapes intermédiaires stockent leur résultat dans une render target, qui sont ensuite réutilisées par d'autres étapes. Ça vous donne une idée du nombre de render targets utilisées !
+
+![](../Deep%20dive/img/Unreal-Render-Pipeline.png)
+:::
