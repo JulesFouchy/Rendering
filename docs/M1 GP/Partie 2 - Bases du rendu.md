@@ -1,3 +1,4 @@
+import YoutubeVideo from "/src/components/YoutubeVideo"
 
 ## La structure de l'application
 
@@ -100,7 +101,7 @@ Stocker cette distance dans le vertex buffer évite de la recalculer à chaque f
 :::
 
 Décrire ce vertex buffer se passe en deux étapes : son **layout** et ses **data**.<br/>
-Le `layout` indique comment `data` est structuré : dans notre exemple on a juste des positions 2D qui s'enchaînent, mais ça pourrait aussi être des positions 3D, et on pourrait aussi avoir d'autres attributs dans le même tableau `data`, par exemple des coordonnées de texture, comme on verra [plus tard](TODO). Pour chaque *attribut* du layout, il faut préciser son *index* (`0` dans notre cas), une information qui nous servira plus tard pour récupérer l'attribut du côté du *shader*.
+Le `layout` indique comment `data` est structuré : dans notre exemple on a juste des positions 2D qui s'enchaînent, mais ça pourrait aussi être des positions 3D, et on pourrait aussi avoir d'autres attributs dans le même tableau `data`, par exemple des coordonnées de texture, comme on verra [plus tard](#uv). Pour chaque *attribut* du layout, il faut préciser son *index* (`0` dans notre cas), une information qui nous servira plus tard pour récupérer l'attribut du côté du *shader*.
 
 Vous remarquerez aussi que `vertex_buffers` est un tableau de vertex buffers ! Il est en effet possible d'avoir plusieurs vertex buffers, par exemple un qui stocke les positions, et un autre qui stocke les normales. Ça revient au même que de mettre tous les attributs dans le même vertex buffer, mais ça peut avoir des performances soit meilleures soit pires, en fonction des situations. C'est une question un peu compliquée dont nous ne soucierons pas, et nous utiliserons simplement ce qui est le plus pratique pour nous.
 
@@ -348,7 +349,7 @@ En guise de premier exercice, vous pouvez changer la couleur du rectangle :
 
 ### Envoyer des paramètres au shader : les uniforms
 
-Pour que nos shaders deviennent intéressants, il faut leur envoyer plus de données en entrée. On peut soit rajouter des attributs dans le vertex buffer (couleur, UV, normale, etc.), [ce que nous verrons plus tard](TODO) ; soit envoyer des paramètres appelés `uniforms`. Une variable uniforme se déclare ainsi dans le shader, au-dessus du `main()` :
+Pour que nos shaders deviennent intéressants, il faut leur envoyer plus de données en entrée. On peut soit rajouter des attributs dans le vertex buffer (couleur, UV, normale, etc.), [ce que nous verrons plus tard](#uv) ; soit envoyer des paramètres appelés `uniforms`. Une variable uniforme se déclare ainsi dans le shader, au-dessus du `main()` :
 
 ```glsl
 uniform vec2 nom_de_votre_variable_uniforme; // Vous pouvez mettre le type que vous voulez, et le nom que vous voulez
@@ -595,7 +596,8 @@ Si votre cube vous paraît un peu bizarre, c'est normal, il nous manque encore u
 
 :::tip Note
 Vous avez peut-être remarqué qu'il y a un dégradé de couleurs. C'est parce que, quand on passe une variable `in` / `out` entre le vertex shader et le fragment shader, elle est interpolée pour chaque pixel (en faisant une moyenne de la valeur aux trois sommets du triangle contenant le pixel).
-TODO image
+
+![](./img/barycentric-coordinates.jpg)
 :::
 
 ## Depth Buffer
@@ -694,14 +696,18 @@ L'effet du filtre est beaucoup moins visible, et c'est surtout quand il y a du m
 
 ### Bonus : textures procédurales
 
-Il est aussi possible, au lieu de lire une texture, de colorier un triangle en calculant une "texture" procédurale en fonction des UVs. On en a déjà vu un exemple très simple quand on affiché nos UVs (`out_color = vec4(uv.x, uv.y, 0., 1.);`), mais on peut faire beaucoup plus ! Par exemple toutes les images sur [Shadertoy](TODO) sont faites ainsi, juste en affichant un quad sur tout l'écran, et en faisant des calculs élaborés dans le fragment shader.
+Il est aussi possible, au lieu de lire une texture, de colorier un triangle en calculant une "texture" procédurale en fonction des UVs. On en a déjà vu un exemple très simple quand on affiché nos UVs (`out_color = vec4(uv.x, uv.y, 0., 1.);`), mais on peut faire beaucoup plus ! Par exemple toutes les images sur [Shadertoy](https://www.shadertoy.com/) sont faites ainsi, juste en affichant un quad sur tout l'écran, et en faisant des calculs élaborés dans le fragment shader.
+
+<iframe width="640" height="360" frameborder="0" src="https://www.shadertoy.com/embed/Wt33Wf?gui=true&t=10&paused=true&muted=false" allowfullscreen></iframe>
 
 Pour commencer simplement, vous pouvez vous demander comment produire un disque, ou un pattern d'échiquier :
 
 | ![](img/step-18-1.png)      | ![](img/step-18-2.png)  |  
 | ----------- | ----------- |
 
-Pour aller plus loin, je vous recommande les excellentes vidéos de [The Art of Code](TODO) (et Inigo ?) TODO mettre une image d'une fin de tuto stylée
+Pour aller plus loin, je vous recommande les excellentes vidéos de [The Art of Code](https://youtu.be/u5HAYVHsasc?list=PLGmrMu-IwbguU_nY2egTFmlg691DN7uE5) :
+
+<YoutubeVideo id="u5HAYVHsasc?list=PLGmrMu-IwbguU_nY2egTFmlg691DN7uE5" />
 
 ### Cube texturé
 
@@ -746,7 +752,7 @@ auto render_target = gl::RenderTarget{gl::RenderTarget_Descriptor{
 
 En général une Render Target a plusieurs textures (qu'on appelle des *attachments*) : au moins une texture de couleur[^1], et (optionnellement) une texture de profondeur (le fameux [Depth Buffer](#depth-buffer)) (qui peut aussi contenir un [Stencil Buffer](TODO) dont nous reparlerons plus tard).
 
-[^1]: Il peut y en avoir plusieurs. Ça permet de dessiner sur plusieurs textures en même temps avec un seul draw call. Pour cela il suffit dans le fragment shader de déclarer plusieurs variables `out`: `out vec4 out_color1; out vec4 out_color2;` et d'écrire dans chacune d'elles.
+[^1]: Il peut y en avoir plusieurs. Ça permet de dessiner sur plusieurs textures en même temps avec un seul draw call. Pour cela il suffit dans le fragment shader de déclarer plusieurs variables `out`: `layout(location = 0) out vec4 out_color1; layout(location = 1) out vec4 out_color2;` et d'écrire dans chacune d'elles.
 
 Puisque dans notre cas on va utiliser la render target pour faire du post-processing, on veut que la texture aie la même taille que l'écran. C'est pourquoi on l'initialise avec 
 ```cpp
