@@ -1,6 +1,6 @@
 ## Charger un mesh depuis un fichier
 
-Pour commencer, nous allons enfin utiliser de vrais modèles 3D. Pour cela, nous allons utiliser la librairie [*tinyobjloader*](TODO) qui lit le format de fichier *.obj* (un format simple de modèle 3D, qui est essentiellement une longue liste de sommets avec positions, UVs, normales, etc.). La librairie est déjà inclue par *opengl-framework*, vous n'avez rien à faire de ce côté là. Je vous laisse vous référer à [la documentation de *tinyobjloader*](TODO) pour voir comment l'utiliser pour lire un modèle 3D. Pour vos tests, vous pouvez utiliser [ce modèle 3D](/fourareen.zip).
+Pour commencer, nous allons enfin utiliser de vrais modèles 3D. Pour cela, nous allons utiliser la librairie [*tinyobjloader*](https://github.com/tinyobjloader/tinyobjloader) qui lit le format de fichier *.obj* (un format simple de modèle 3D, qui est essentiellement une longue liste de sommets avec positions, UVs, normales, etc.). La librairie est déjà inclue par *opengl-framework*, vous n'avez rien à faire de ce côté là. Je vous laisse vous référer à [la documentation de *tinyobjloader*](https://github.com/tinyobjloader/tinyobjloader) pour voir comment l'utiliser pour lire un modèle 3D. Pour vos tests, vous pouvez utiliser [ce modèle 3D](/fourareen.zip).
 
 **NB:** vous aurez besoin de la fonction `gl::make_absolute_path(path)` pour convertir un chemin relatif (par exemple `"res/meshes/fourareen.obj"` en un chemin absolu que *tinyobjloader* va comprendre).
 
@@ -34,10 +34,6 @@ La normale est le vecteur perpendiculaire à la surface ; on pourrait le calcule
 
 On peut interpréter les couleurs : RGB = XYZ : en bleu ce sont les normales qui pointent vers Z, i.e. vers le haut. En rouge et vert sont celles qui pointent vers X et Y.
 
-
-TODO normaliser les normales
-TODO normal matrix
-
 ### Lumière directionnelle
 
 Maintenant il nous faut décrire notre lumière. Nous allons commencer par le type le plus simple, les lumières directionnelles. C'est une lumière qui éclaire dans une seule direction ; c'est typiquement le cas du soleil (ou toute autre source très éloignée), dont tous les rayons nous arrivent (quasiment) parallèles :
@@ -48,6 +44,11 @@ Pour la décrire il nous suffit de donner sa direction, qui sera un `vec3` norma
 Une fois que vous avez cette direction, pour mesurer à quel point notre triangle fait face à la lumière (et donc à quel point il est éclairé) nous allons utiliser le *produit scalaire* (`dot(v1, v2)` en glsl). Le produit scalaire entre deux vecteurs parfaitement alignés vaut 1 (si les vecteurs sont normalisés), il vaut -1 si les vecteurs sont parfaitement opposés, et il vaut 0 si les vecteurs sont orthogonaux. On peut ensuite multiplier la couleur de notre pixel par le résultat de ce produit scalaire (avec un signe moins), ce qui va nous donner un premier modèle d'éclairage simpliste : Quand la normale et la direction de la lumière sont parfaitement opposées c'est l'éclairage maximal, et on va multiplier par un produit scalaire qui vaut 1, donc conserver toute la couleur du pixel. À l'inverse quand les vecteurs sont perpendiculaires aucune lumière n'arrive sur notre surface, et ça correspond bien au fait de multiplier par un produit scalaire qui vaut 0 dans ce cas.
 
 ![](./img/step-25.png)
+
+:::tip
+Pour nos produits scalaires on a besoin que les deux vecteurs soient normalisés, donc pensez bien à **toujours normaliser vos normales** !<br/>
+Et attention, il y a des petits pièges : par exemple si vos normales sont normalisées dans le vertex shader, et qu'ensuite vous les passez au fragment shader via une variable `in` / `out`, elles ne seront plus normalisées, car l'interpolation entre les sommets se produit, et la moyenne de vecteurs normalisés n'est pas nécessairement normalisée.
+:::
 
 ### Lumière ambiante
 
@@ -123,15 +124,15 @@ Si vous voulez savoir d'où vient la normal matrix et pourquoi c'est l'inverse d
 
 ### Lumières colorées
 
-couleur et intensité de la lmuière
+On peut aussi associer une couleur à chaque lumière, simplement en multipliant sa contribution par la couleur désirée (`vec3`) :
 
-matrice modèle à appliquer aux positions, et normal matrix
+![](./img/step-29.png)
 
-### Blinn-Phong, material, etc
+## Ombres
 
 ## Normal maps
 
-## Ombres
+## Blinn-Phong, matériau, PBR
 
 ## Effet see-through
 
