@@ -128,12 +128,31 @@ On peut aussi associer une couleur à chaque lumière, simplement en multipliant
 
 ![](./img/step-29.png)
 
-## Ombres
+## Pour aller plus loin
 
-## Normal maps
+Voici différents effets "avancés" que vous pouvez implémenter maintenant que vous connaissez les bases du rendu 3D !
 
-## Blinn-Phong, matériau, PBR
+### Normal maps
 
-## Effet see-through
+Les normal maps permettent d'ajouter du détail à un mesh en modifiant la normale pour chaque pixel du triangle. [Voici par exemple un tuto que vous pouvez suivre pour implémenter des normal maps.](https://learnopengl.com/Advanced-Lighting/Normal-Mapping)
 
--> depth buffer
+### Ombres
+
+Les shadow maps permettent de produire des ombres **pour les lumières directionnelles**. C'est le point de départ de toute une famille de technique plus raffinées, comme les *omnidirectional shadow maps* qui gèrent les lumières ponctuelles, et les *cascaded shadow maps* qui améliorent la qualité des ombres. [Voici par exemple un tuto que vous pouvez suivre pour implémenter une shadow map basique.](https://learnopengl.com/Advanced-Lighting/Shadows/Shadow-Mapping) (Et vous verrez, c'est déjà un peu costaud !)
+
+### Effet see-through
+
+Pour faire cette effet où on voit une silhouette des objets à travers les murs, il vous suffit, une fois toute la scène rendue normalement, de redessiner une deuxième fois l'objet sur lequel vous voulez appliquer l'effet, avec ce setup particulier :
+- Appliquer un shader spécial qui va donner le visuel de la silhouette, par exemple retourner une couleur unie pour faire simple
+- Changer le depth test, pour que l'objet ne s'affiche que si il est derrière d'autres objets. Je vous réfère à la documentation de [`glDepthFunc`](https://registry.khronos.org/OpenGL-Refpages/gl4/html/glDepthFunc.xhtml) pour voir comment faire ça.
+
+![](./img/see-through.png)
+
+### Matériaux et modèles d'éclairages plus avancés
+
+Je vous réfère à ces tutos :
+- [Basic Lighting](https://learnopengl.com/Lighting/Basic-Lighting), il y a un peu de redite de ce qu'on a vu, mais aussi des nouveautés
+- [Materials](https://learnopengl.com/Lighting/Materials)
+- [Blinn-Phong](https://learnopengl.com/Advanced-Lighting/Advanced-Lighting)
+- [PBR part 1](https://learnopengl.com/PBR/Theory)
+- [PBR part 2](https://learnopengl.com/PBR/Lighting)

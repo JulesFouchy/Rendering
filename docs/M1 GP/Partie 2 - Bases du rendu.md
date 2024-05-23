@@ -630,7 +630,7 @@ On peut aller visualiser notre Depth Buffer dans RenderDoc :
 Dans l'onglet `Outputs` il y a maintenant deux images : l'écran normal (`Backbuffer Color`), et le Depth Buffer (`Backbuffer Depth-stencil`). (NB : pour y voir quelque chose dans le depth buffer, il faut changer la `Range`, car comme le cube est très proche il apparaît très blanc dans le depth buffer).
 
 :::info Remarque
-On verra un usage créatif du depth buffer pour faire un [effet de rendu See-Through](TODO).
+On verra un usage créatif du depth buffer pour faire un [effet de rendu See-Through](Partie%203%20-%20Du%20vrai%20rendu%203D#effet-see-through).
 :::
 
 ## Texture
