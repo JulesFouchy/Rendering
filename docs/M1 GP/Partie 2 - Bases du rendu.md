@@ -766,7 +766,8 @@ mais il faut également la changer si la fenêtre est redimensionnée ! Rajoutez
 gl::set_events_callbacks({
     camera.events_callbacks(),
     {.on_framebuffer_resized = [&](gl::FramebufferResizedEvent const& e) {
-        render_target.resize(e.width_in_pixels, e.height_in_pixels);
+        if(e.width_in_pixels != 0 && e.height_in_pixels != 0) // OpenGL crash si on tente de faire une render target avec une taille de 0
+            render_target.resize(e.width_in_pixels, e.height_in_pixels);
     }},
 });
 ```
