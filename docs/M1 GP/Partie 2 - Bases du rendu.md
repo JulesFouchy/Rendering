@@ -514,7 +514,7 @@ Il y a aussi un autre type de projection : **la projection orthographique**. Ell
 
 ### Envoyer au shader
 
-Maintenant qu'on a ces deux matrices, on peut les multiplier entre elles pour former la `view_projection_matrix` (⚠ Attention, la view doit s'appliquer en premier, et la projection en deuxième ! Réfléchissez donc bien à l'ordre dans lequel vous multipliez vos matrices), et envoyer cette view_projection matrix au shader (déclarez une uniform de type `mat4`). Enfin, il ne reste plus qu'à multiplier dans le shader la matrice à la position de nos vertexs :
+Maintenant qu'on a ces deux matrices, on peut les multiplier entre elles pour former la `view_projection_matrix` (⚠ Attention, la view doit être celle qui va s'appliquer en premier au vecteur, et la projection en deuxième ! Réfléchissez donc bien à l'ordre dans lequel vous multipliez vos matrices), et envoyer cette view_projection matrix au shader (déclarez une uniform de type `mat4`). Enfin, il ne reste plus qu'à multiplier dans le shader la matrice à la position de nos vertexs :
 ```cpp
 gl_Position = view_projection_matrix * vec4(in_position, 0., 1.);
 ```

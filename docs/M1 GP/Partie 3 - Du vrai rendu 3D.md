@@ -128,17 +128,17 @@ On peut aussi associer une couleur à chaque lumière, simplement en multipliant
 
 ![](./img/step-29.png)
 
-## Pour aller plus loin
+## À vous de jouer !
 
 Voici différents effets "avancés" que vous pouvez implémenter maintenant que vous connaissez les bases du rendu 3D !
 
 ### Normal maps
 
-Les normal maps permettent d'ajouter du détail à un mesh en modifiant la normale pour chaque pixel du triangle. [Voici par exemple un tuto que vous pouvez suivre pour implémenter des normal maps.](https://learnopengl.com/Advanced-Lighting/Normal-Mapping)
+Les normal maps permettent d'ajouter du détail à un mesh en modifiant la normale pour chaque pixel du triangle. [Voici par exemple un tuto que vous pouvez suivre pour implémenter des normal maps.](https://learnopengl.com/Advanced-Lighting/Normal-Mapping) [Et le même en version vidéo.](https://youtu.be/JNj1A1bl7gg?list=PLPaoO-vpZnumdcb4tZc4x5Q-v7CkrQ6M-)
 
 ### Ombres
 
-Les shadow maps permettent de produire des ombres **pour les lumières directionnelles**. C'est le point de départ de toute une famille de technique plus raffinées, comme les *omnidirectional shadow maps* qui gèrent les lumières ponctuelles, et les *cascaded shadow maps* qui améliorent la qualité des ombres. [Voici par exemple un tuto que vous pouvez suivre pour implémenter une shadow map basique.](https://learnopengl.com/Advanced-Lighting/Shadows/Shadow-Mapping) (Et vous verrez, c'est déjà un peu costaud !)
+Les shadow maps permettent de produire des ombres **pour les lumières directionnelles**. C'est le point de départ de toute une famille de technique plus raffinées, comme les *omnidirectional shadow maps* qui gèrent les lumières ponctuelles, et les *cascaded shadow maps* qui améliorent la qualité des ombres. [Voici par exemple un tuto que vous pouvez suivre pour implémenter une shadow map basique.](https://learnopengl.com/Advanced-Lighting/Shadows/Shadow-Mapping) (Et vous verrez, c'est déjà un peu costaud !) [Et le même tuto en version vidéo.](https://youtu.be/9g-4aJhCnyY?list=PLPaoO-vpZnumdcb4tZc4x5Q-v7CkrQ6M-)
 
 ### Effet see-through
 
