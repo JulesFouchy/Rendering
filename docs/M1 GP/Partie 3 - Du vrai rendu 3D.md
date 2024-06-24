@@ -1,8 +1,13 @@
 ## Charger un mesh depuis un fichier
 
-Pour commencer, nous allons enfin utiliser de vrais modèles 3D. Pour cela, nous allons utiliser la librairie [*tinyobjloader*](https://github.com/tinyobjloader/tinyobjloader) qui lit le format de fichier *.obj* (un format simple de modèle 3D, qui est essentiellement une longue liste de sommets avec positions, UVs, normales, etc.). La librairie est déjà inclue par *opengl-framework*, vous n'avez rien à faire de ce côté là. Je vous laisse vous référer à [la documentation de *tinyobjloader*](https://github.com/tinyobjloader/tinyobjloader) pour voir comment l'utiliser pour lire un modèle 3D. Pour vos tests, vous pouvez utiliser [ce modèle 3D](/fourareen.zip).
+Pour commencer, nous allons enfin utiliser de vrais modèles 3D. Pour cela, nous allons utiliser la librairie [*tinyobjloader*](https://github.com/tinyobjloader/tinyobjloader) qui lit le format de fichier *.obj* (un format simple de modèle 3D, qui est essentiellement une longue liste de sommets avec positions, UVs, normales, etc.). La librairie est déjà inclue par *opengl-framework*, vous n'avez rien à faire de ce côté là (notamment vous n'avez pas besoin de faire `#define TINYOBJLOADER_IMPLEMENTATION` comme vous le verrez demandé dans les exemples).
 
-**NB:** vous aurez besoin de la fonction `gl::make_absolute_path(path)` pour convertir un chemin relatif (par exemple `"res/meshes/fourareen.obj"` en un chemin absolu que *tinyobjloader* va comprendre).
+Il va nous falloir créer un tableau de floats qu'on va remplir avec les positions, UVs et normales du mesh, et nous allons ensuite utiliser ce tableau comme `data` pour créer un `gl::Mesh`.<br/>
+Je vous laisse vous référer à [la documentation de *tinyobjloader*](https://github.com/tinyobjloader/tinyobjloader) pour voir comment utiliser la librairie pour lire un modèle 3D et récupérer les positions / UVs / normales dans un tableau. (NB : il y a beaucoup de bazar dans leur code d'exemple, cherchez juste la partie qui lit le modèle et récupère les différents attributs (le reste c'est leur setup OpenGL, qui correspond à ce que vous avez déjà fait avec la librairie `gl::`)).
+
+Pour vos tests, vous pouvez utiliser [ce modèle 3D](/fourareen.zip).
+
+**NB :** vous aurez besoin de la fonction `gl::make_absolute_path(path)` pour convertir un chemin relatif (par exemple `"res/meshes/fourareen.obj"` en un chemin absolu que *tinyobjloader* va comprendre).
 
 ![](./img/step-23.png)
 
