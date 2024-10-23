@@ -80,6 +80,12 @@ const config: Config = {
           position: "left",
           label: "M2 GP",
         },
+        {
+          type: "docSidebar",
+          sidebarId: "ShadersUnreal",
+          position: "left",
+          label: "Shaders Unreal",
+        },
         { to: "/Ressources", label: "Ressources", position: "left" },
       ],
     },
