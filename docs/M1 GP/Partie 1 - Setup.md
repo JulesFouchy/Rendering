@@ -17,7 +17,7 @@ Un compilateur va transformer votre code en un programme exécutable. Vous ne l'
 ## Installer CMake
 
 [Téléchargez `Windows x64 Installer` depuis cette page.](https://cmake.org/download/)<br/>
-**IMPORTANT** : pendant l'installation, cochez bien `Add CMake to the system PATH for the current user` (ou `Add CMake to the system PATH for all users`).
+**IMPORTANT** : pendant l'installation, cochez bien `Add CMake to the PATH environment variable`.
 
 ![Add CMake to the system PATH for the current user](img/cmake.png)
 
