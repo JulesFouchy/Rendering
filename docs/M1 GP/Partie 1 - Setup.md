@@ -47,7 +47,7 @@ Nous allons beaucoup nous en servir au fil des TPs, à la fois pour débuguer no
 
 ## Télécharger la base de code
 
-Vous êtes maintenant prêt.e à coder ! Nous allons partir de [ce template de code](https://github.com/JulesFouchy/Rendering-Starter-Template) qui inclue toutes les libraires nécessaires. Vous pouvez directement créer un repository GitHub à partir de celui-ci en faisant `Use this template` :
+Vous êtes maintenant prêt.es à coder ! Nous allons partir de [ce template de code](https://github.com/JulesFouchy/Rendering-Starter-Template) qui inclue toutes les libraires nécessaires. Vous pouvez directement créer un repository GitHub à partir de celui-ci en faisant `Use this template` :
 
 ![](img/use-this-template.png)
 

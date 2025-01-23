@@ -23,7 +23,7 @@ Nous allons parler de :
 
 À chaque séance je ferai un petit point de cours (30 min max) pour vous expliquer un concept en détail, puis vous serez en autonomie pour avancer sur les TPs. N'hésitez surtout pas à me poser plein de questions, et à m'appeler dès que vous êtes bloqué.es plus de 5-10 minutes sur quelque chose.
 
-Vous serez évalué.es sur ces TPs qu'il faudra me rendre. Il y aura deux notes, une au milieu du trimestre et une à la fin. Il est donc important d'avancer régulièrement, car vous serez évalué.es au milieu du trimestre sur là où vous en êtes.<br/>
+Vous serez évalué.es sur ces TPs qu'il faudra me rendre. Il y aura deux notes, une au milieu du trimestre (après la séance du 21 février) et une à la fin (après la séance du 13 mars). Il est donc important d'avancer régulièrement, car vous serez évalué.es au milieu du trimestre sur là où vous en êtes.<br/>
 Il y a quelques sections qui sont marquées **Bonus** dans les TPs, vous n'êtes pas obligé.es de les faire, mais si vous en avez le temps et l'envie n'hésitez pas, ça sera valorisé dans la notation.<br/>
 NB : Votre implication et votre participation en classe influencerons aussi (légèrement) votre note.
 
