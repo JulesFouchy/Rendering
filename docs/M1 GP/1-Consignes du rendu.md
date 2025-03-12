@@ -2,7 +2,7 @@ Le rendu de vos TPs se fera via GitHub / GitLab, en me mettant un lien [**sur ce
 
 **ATTENTION** à bien vérifier que votre repo est en **public** !
 
-Il y aura deux notes, une au milieu du trimestre (après la séance du 21 février) et une à la fin (après la séance du 13 mars). Il est donc important d'avancer régulièrement, car vous serez évalué.es au milieu du trimestre sur là où vous en êtes.<br/>
+Il y aura deux notes, une au milieu du trimestre (après la séance du 21 février) et une à la fin (après la séance du 13 mars, **DEADLINE dimanche 16 mars 23h59**). Il est donc important d'avancer régulièrement, car vous serez évalué.es au milieu du trimestre sur là où vous en êtes.<br/>
 Il y a quelques sections qui sont marquées **Bonus** dans les TPs, vous n'êtes pas obligé.es de les faire, mais si vous en avez le temps et l'envie n'hésitez pas, ça sera valorisé dans la notation.<br/>
 NB : Votre implication et votre participation en classe influencerons aussi (légèrement) votre note.
 
