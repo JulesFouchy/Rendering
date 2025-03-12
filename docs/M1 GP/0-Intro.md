@@ -11,15 +11,12 @@ Nous allons parler de :
 - Fragment Shader
 - Variables uniformes
 - Caméra
-- Matrice de vue
-- Matrice de projection
-- Matrice modèle
+- Matrices (modèle / vue / projection)
 - Depth Buffer
 - Textures
-- Modèles d'éclairage (Blinn–Phong, PBR)
-- Post-processing
 - Render Target
-- Ombres (Shadow Maps)
+- Post-processing
+- Modèles d'éclairage (Blinn–Phong)
 
 À chaque séance je ferai un petit point de cours (30 min max) pour vous expliquer un concept en détail, puis vous serez en autonomie pour avancer sur les TPs. N'hésitez surtout pas à me poser plein de questions, et à m'appeler dès que vous êtes bloqué.es plus de 5-10 minutes sur quelque chose.
 
