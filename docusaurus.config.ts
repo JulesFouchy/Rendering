@@ -86,6 +86,12 @@ const config: Config = {
           position: "left",
           label: "Shaders Unreal",
         },
+        {
+          type: "docSidebar",
+          sidebarId: "ShadersBlender",
+          position: "left",
+          label: "Shaders Blender",
+        },
         { to: "/Ressources", label: "Ressources", position: "left" },
       ],
     },
