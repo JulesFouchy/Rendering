@@ -92,6 +92,12 @@ const config: Config = {
           position: "left",
           label: "Shaders Blender",
         },
+        {
+          type: "docSidebar",
+          sidebarId: "Maths",
+          position: "left",
+          label: "Maths",
+        },
         { to: "/Ressources", label: "Ressources", position: "left" },
       ],
     },
