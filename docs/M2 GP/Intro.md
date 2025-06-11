@@ -1,1 +1,0 @@
-TP1 : shadow maps, en implem une, bien comprendre ses paramètres (et faire le parallèle avec les ombres dans Unity et Unreal, apprendre comment bien les configurer, ce que font chaques paramètres)
