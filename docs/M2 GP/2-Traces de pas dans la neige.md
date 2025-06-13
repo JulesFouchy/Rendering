@@ -1,5 +1,7 @@
 import YoutubeVideo from "/src/components/YoutubeVideo"
 
+**IMPORTANT:** [déposez un lien git vers votre projet Unity ici](https://docs.google.com/spreadsheets/d/1hFb78dl3vhGOVNdYYkGjotGaSb4AsePzQq_jCEdALds/edit?usp=sharing). **Attention** à bien vérifier que le repo est en public ! (ou ajoutez moi dessus, [JulesFouchy](https://github.com/JulesFouchy))
+
 <YoutubeVideo id="ftCyZ7F5q9E"/>
 
 ## Pour aller plus loin (hors évaluation, seulement le premier tuto ci-dessus est évalué)
