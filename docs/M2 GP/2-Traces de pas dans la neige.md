@@ -1,10 +1,15 @@
 import YoutubeVideo from "/src/components/YoutubeVideo"
 
 <YoutubeVideo id="ftCyZ7F5q9E"/>
-<br/>
+
+## Pour aller plus loin (hors évaluation, seulement le premier tuto ci-dessus est évalué)
+
+Un effet un peu plus poussé, qui prend en compte la profondeur entre le personnage et le sol (si le perso saute au-dessus de la neige on ne veut pas qu'il laisse des traces dedans), ainsi que la forme exacte du personnage (dans le premier tuto on dessinait toujours un rond, mais en fait on peut carrément rendre le mesh du personnage, mais ça implique de prendre en compte la profondeur pour que le rendu soit smooth) :
+
+<YoutubeVideo id="oMzI9DLgPKc"/>
 <br/>
 
-Pour aller plus loin: le même genre de technique peut être utilisé pour faire réagir l'herbe quand on personnage marche dedans :
+Le même genre de technique peut être utilisée pour faire réagir l'herbe quand on personnage marche dedans. La différence est qu'on va faire ployer l'herbe quand on passe, et il faut qu'elle revienne progressivement à sa place après, donc la texture doit stocker depuis combien de temps le joueur est passé, pas seulement si il est passé ou non, ce qui rajoute quelques complexités :
 
 <YoutubeVideo id="MKX45_riWQA?start=3045"/>
 <br/>
