@@ -72,6 +72,11 @@ C'est le point de départ qui va déterminer si on trouve le vrai minimum ou pas
 
 ### Champ de force autour de la courbe de Bezier
 
-Maintenant qu'on sait trouver le point de la courbe de Bezier le plus proche de notre particule, on peut appliquer une force qui va dans la direction de la tangente à la courbe en ce point, et dont la force diminue plus on est loin de la courbe :
+Maintenant qu'on sait trouver le point de la courbe de Bezier le plus proche de notre particule, on peut appliquer une force qui va dans la direction de la normale à la courbe en ce point, et dont la force diminue plus on est loin de la courbe :
 
-![](./img/bezier-force.gif)
+![](./img/force-bezier-normal.gif)
+
+
+NB: tout le code qu'on vient d'écrire ne dépend absolument pas de la courbe paramétrique choisie ! On a fait ça avec des beziers, mais on aurait tout aussi bien pû utiliser le coeur de tout à l'heure ! C'est ce qui fait la force des courbes paramétriques : c'est très générique et une fois qu'on a les algos, on peut les appliquer à n'importe quelle courbe \o/
+
+![](./img/force-heart-normal.gif)
