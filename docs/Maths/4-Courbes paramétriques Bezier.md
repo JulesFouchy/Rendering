@@ -8,7 +8,7 @@ import YoutubeVideo from "/src/components/YoutubeVideo"
 - Faites une fonction qui prend une courbe paramétrique et l'affiche en dessinant plein de petits segments tout le long de la courbe.
 
 :::tip
-Pour passer une fonction représentant votre courbe paramétrique à la fonction de dessin, je vous conseille d'utiliser [`std::function`](https://www.geeksforgeeks.org/cpp/std-function-in-cpp/), c'est plus simple que de faire une classe abstraite et de l'héritage:
+Pour passer une fonction représentant votre courbe paramétrique à la fonction de dessin, je vous conseille d'utiliser [`std::function`](https://www.geeksforgeeks.org/cpp/std-function-in-cpp/), c'est plus simple que de faire une classe abstraite et de l'héritage :
 
 ```cpp
 void draw_parametric(std::function<glm::vec2(float)> /* Ceci est une fonction qui retourne un vec2 et prend en paramètre un float */ const& parametric)
@@ -21,7 +21,7 @@ int main()
     draw_parametric([](float t) {
         return bezier3({-.3f, -.3f}, {-0.2f, 0.5f}, gl::mouse_position(), {.8f, .5f}, t);
     });
-    // Cette syntaxe est une lambda, i.e. une fonction définie in-line dans le code:
+    // Cette syntaxe est une lambda, i.e. une fonction définie in-line dans le code :
     // la syntaxe commence par [], puis (float t) est la déclaration des paramètres de la fonction,
     // puis dans les {} on met le corp dans la fonction, comme pour une fonction normale
 }
@@ -35,6 +35,7 @@ int main()
 ## Courbe de Bezier
 
 - Codez des courbes de Bezier d'ordre 1, 2 et 3 avec l'algorithme de De Casteljau
+![](./img/Bézier_2_big.gif)
 - Codez des courbes de Bezier d'ordre 1, 2 et 3 avec les polynômes de Bernstein
 
 ![](./img/bezier1.png)
@@ -52,7 +53,7 @@ int main()
 ![](./img/param-spawn-even.png)
 (**NB:** vous remarquerez que les points sont plus rapprochés au centre, c'est parce que la courbe avance plus vite à certains endroits qu'à d'autres. Pour remédier à cela il faudrait, au lieu de faire avancer t uniformément, calculer la distance "world space" parcourue sur la courbe. On ne va pas rentrer là-dedans aujourd'hui, [mais vous pouvez le faire en bonus si vous avez fini en avance](https://youtu.be/aVwxzDHniEw?t=843))
 
-- Maintenant, initialisez leur vitesse dans la direction de la normale à la courbe:
+- Maintenant, initialisez leur vitesse dans la direction de la normale à la courbe :
 ![](./img/normal-speed.gif)
 
 ### Point le plus proche sur la courbe
@@ -75,7 +76,6 @@ C'est le point de départ qui va déterminer si on trouve le vrai minimum ou pas
 Maintenant qu'on sait trouver le point de la courbe de Bezier le plus proche de notre particule, on peut appliquer une force qui va dans la direction de la normale à la courbe en ce point, et dont la force diminue plus on est loin de la courbe :
 
 ![](./img/force-bezier-normal.gif)
-
 
 NB: tout le code qu'on vient d'écrire ne dépend absolument pas de la courbe paramétrique choisie ! On a fait ça avec des beziers, mais on aurait tout aussi bien pû utiliser le coeur de tout à l'heure ! C'est ce qui fait la force des courbes paramétriques : c'est très générique et une fois qu'on a les algos, on peut les appliquer à n'importe quelle courbe \o/
 
