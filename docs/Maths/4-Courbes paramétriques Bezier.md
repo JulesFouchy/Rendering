@@ -60,7 +60,7 @@ int main()
 
 On veut trouver le paramètre t qui minimise la distance entre bezier(t) et un point donné. Dans des cas simples on peut calculer des formules exactes, mais ce n'est pas le cas pour les courbes de Bezier et de nombreuses autres fonctions. Heureusement il existe plein d'algorithmes permettant de calculer le minimum d'une fonction.
 
-Nous allons utiliser la descente de gradient, qui a l'avantage d'être simple à implémenter (mais n'est pas ce qui se fait de mieux en terme de performances. [La méthode de Newton-Raphson](https://en.wikipedia.org/wiki/Newton%27s_method) est bien plus rapide[^1], essayez-là en bonus si vous avez fini en avance).
+Nous allons utiliser la descente de gradient, qui a l'avantage d'être simple à implémenter (mais n'est pas ce qui se fait de mieux en terme de performances. [La méthode de Newton-Raphson](https://en.wikipedia.org/wiki/Newton%27s_method) est bien plus rapide[^1], essayez-la en bonus si vous avez fini en avance).
 
 Un piège avec la descente de gradient (et la méthode de Newton-Raphson a le même problème) c'est qu'on peut rester coincé sur un minimum local et ne jamais trouver le minimum global :
 
